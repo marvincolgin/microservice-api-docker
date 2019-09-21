@@ -22,18 +22,13 @@ class FlaskAPITests(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_generate_status_code(self):
+    def test_generate_data(self):
         # sends HTTP GET request to the application
         # on the specified path
         result = self.app.get('/generate')
 
         # assert the status code of the response
         self.assertEqual(result.status_code, 200)
-
-    def test_generate_data(self):
-        # sends HTTP GET request to the application
-        # on the specified path
-        result = self.app.get('/generate')
 
         # Make sure it's a json byte stream
         self.assertIsInstance(result.data, bytes)
@@ -43,7 +38,31 @@ class FlaskAPITests(unittest.TestCase):
 
         # Make sure it has a count field
         c = data.get('count', -1)
-        self.assertGreaterEqual(c, 45)
+        self.assertEqual(c, 10)
+
+        # Make sure it has a values field
+        arr = data.get('values', False)
+        self.assertIsNotNone(arr)
+
+        # Make sure the values is []
+        self.assertIsInstance(arr, list)
+
+        # Make sure count(values) == data.count
+        self.assertEqual(c, len(arr))
+
+    def test_public_data(self):
+        result = self.app.get('/')
+        self.assertEqual(result.status_code, 200)
+
+        # Make sure it's a json byte stream
+        self.assertIsInstance(result.data, bytes)
+        buf = result.data.decode('utf8').replace("'", '"')
+        data = json.loads(buf)
+        self.assertIsInstance(data, dict)
+
+        # Make sure it has a count field
+        c = data.get('count', -1)
+        self.assertEqual(c, 10)
 
         # Make sure it has a values field
         arr = data.get('values', False)

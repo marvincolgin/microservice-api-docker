@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import request
 from factory import create_app
 import sys
 import optparse
@@ -9,9 +9,13 @@ import json
 import random
 
 
-API_URL = 'https://cf401-finalproject.mcolgin.now.sh/api'
+API_URL_BASE = 'http://127.0.0.1:8000'
+API_URL_GENERATE = API_URL_BASE + '/generate'
+API_URL_SORT = API_URL_BASE + '/sort'
+API_URL_COMPARE = API_URL_BASE + '/compare'
 
 
+API_GENERATE_NUMBER = 10
 
 
 app = create_app()
@@ -61,7 +65,7 @@ def do_SORT():
             i = 2
 
         # Get Generated Data
-        url = f'{API_URL}?cmd=compare&val1={val1}&val2={val2}&cs={i}'
+        url = f'{API_URL_COMPARE}?val1={val1}&val2={val2}&cs={i}'
         r = requests.get(url)
 
         if is_json(r.text):
@@ -81,10 +85,6 @@ def do_SORT():
 
     # Read in the POST
     body = request.json
-
-    print(body)
-    print('****', type(body).__name__)
-
     if body is not None:
 
         # Convert Body to JSON
@@ -142,10 +142,12 @@ def do_GENERATE():
 
     # Generate a Random list of *Unique* Values
     ht = HashTable()
-    for _ in range(50):
+    c = 0
+    while c < API_GENERATE_NUMBER:
         x = random.randint(1, 1000)
         if not ht.contains(str(x)):
             ht.add(str(x), 1)
+            c += 1
 
     arrKeys = ht.export_keys()
     values = []
@@ -202,7 +204,7 @@ def do_PUBLIC():
     # Sort a List of Random *Unique* Values
 
     # Get Generated Data
-    url = f'{API_URL}?cmd=generate'
+    url = f'{API_URL_GENERATE}'
     r = requests.get(url)
 
     if r is not None and is_json(r.text):
@@ -211,6 +213,7 @@ def do_PUBLIC():
         # Validate Response
         valid = False
         count = data.get('count', None)
+        print("count:", count)
         if count and count > 0:
             arr = data.get('values', None)
             if arr and isinstance(arr, list):
@@ -218,7 +221,7 @@ def do_PUBLIC():
 
         if valid:
             # Pass Data to Sort
-            url = f'{API_URL}'
+            url = f'{API_URL_SORT}'
             r = requests.post(url, data=json.dumps(data))
 
             if is_json(r.text):
