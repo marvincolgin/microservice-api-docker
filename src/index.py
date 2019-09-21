@@ -18,6 +18,7 @@ start = int(round(time.time()))
 
 
 def is_json(json_str) -> bool:
+
     # validate if a string is valid JSON
     try:
         _ = json.loads(json_str)  # noqa UNUSED
@@ -79,10 +80,18 @@ def do_SORT():
 
     # Read in the POST
     body = request.json
-    if body is not None and is_json(body):
+
+    print(body)
+    print('****', type(body).__name__)
+
+    if body is not None:
 
         # Convert Body to JSON
-        obj = json.loads(body)
+        if isinstance(body, dict):
+            obj = body
+        else:
+            if is_json(body):
+                obj = json.loads(body)
 
         # Validate nput
         valid = False
