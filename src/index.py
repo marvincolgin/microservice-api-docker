@@ -1,4 +1,5 @@
 from flask import Flask, request
+from factory import create_app
 import sys
 import optparse
 import time
@@ -11,9 +12,9 @@ import random
 API_URL = 'https://cf401-finalproject.mcolgin.now.sh/api'
 
 
-app = Flask(__name__)
-# @TODO: Add CORS
 
+
+app = create_app()
 start = int(round(time.time()))
 
 
@@ -264,7 +265,7 @@ def do_PUBLIC():
 
 
 if __name__ == "__main__":
-    parser = optparse.OptionParser(usage="python simpleapp.py -p ")
+    parser = optparse.OptionParser(usage="python " + __name__ + " -p ")
     parser.add_option('-p', '--port', action='store', dest='port', help='The port to listen on.')
     (args, _) = parser.parse_args()
     if args.port is None:
