@@ -12,6 +12,7 @@ API_URL = 'https://cf401-finalproject.mcolgin.now.sh/api'
 
 
 app = Flask(__name__)
+# @TODO: Add CORS
 
 start = int(round(time.time()))
 
@@ -23,17 +24,6 @@ def is_json(json_str) -> bool:
     except ValueError:
         return False
     return True
-
-
-"""
-def do_OPTIONS():
-    # set options for CORS
-    self.send_response(200, "ok")
-    self.send_header('Access-Control-Allow-Credentials', 'true')
-    self.send_header('Access-Control-Allow-Origin', 'http://localhost:3000')
-    self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-    self.send_header("Access-Control-Allow-Headers", "X-Requested-With, Content-type")
-"""
 
 
 @app.route('/sort', methods=['POST'])
@@ -89,7 +79,6 @@ def do_SORT():
 
     # Read in the POST
     body = request.json
-
     if body is not None and is_json(body):
 
         # Convert Body to JSON
@@ -197,16 +186,16 @@ def do_COMPARE():
     return data
 
 
-"""
 @app.route('/', methods=['GET'])
-def do_PUBLIC(self):
+def do_PUBLIC():
+    method_name = 'do_PUBLIC'
     # Sort a List of Random *Unique* Values
 
     # Get Generated Data
-    url = f'{self.API_URL}?cmd=generate'
+    url = f'{API_URL}?cmd=generate'
     r = requests.get(url)
 
-    if self.is_json(r.text):
+    if r is not None and is_json(r.text):
         data = r.json()
 
         # Validate Response
@@ -219,49 +208,50 @@ def do_PUBLIC(self):
 
         if valid:
             # Pass Data to Sort
-            url = f'{self.API_URL}'
+            url = f'{API_URL}'
             r = requests.post(url, data=json.dumps(data))
 
-            if self.is_json(r.text):
+            if is_json(r.text):
                 data = r.json()
 
                 # Validate Response
 
                 # Return Result
-                retStr = json.dumps(data)
+                return(data)
             else:
                 # ERROR
                 data = {
-                    'func': 'do_GET',
-                    'cmd': cmd,
+                    'func': method_name,
+                    'url': url,
                     'error': f'Invalid JSON',
                     'payload': r.text
                 }
-                retStr = json.dumps(data)
+                return(data)
         else:
             # ERROR
             data = {
-                'func': 'do_GET',
-                'cmd': cmd,
+                'func': method_name,
+                'note': 'count from json didn''t match values[]',
                 'error': f'Invalid Response',
                 'payload': str(data)  # this is a dict
             }
-            retStr = json.dumps(data)
+            return(data)
 
     else:
         # ERROR
         data = {
-            'func': 'do_GET',
-            'cmd': cmd,
+            'func': method_name,
+            'url': url,
             'error': 'Invalid JSON',
             'payload': r.text
         }
-        retStr = json.dumps(data)
+        return(data)
 
     # Send back to Client
-    self.wfile.write(retStr.encode())
-    return
-"""
+    return {
+        'func': method_name,
+        'error': f'ASSERT! This should never get here'
+    }
 
 
 if __name__ == "__main__":
