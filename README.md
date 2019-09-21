@@ -13,26 +13,15 @@ Performs ```GET /generate``` to obtain a random list of integers, validates the 
 
 ```
 http GET :8000/
-
-
-HTTP/1.0 200 OK
-Content-Length: 318
-Content-Type: application/json
-Date: Sat, 21 Sep 2019 03:20:12 GMT
-Server: Werkzeug/0.16.0 Python/3.7.4
-
+```
+```
 {
-    "count": 50,
+    "count": 5,
     "values": [
         "2",
         "14",
-        "50",
         "61",
-        ...
         "907",
-        "957",
-        "969",
-        "989",
         "994"
     ]
 }
@@ -42,16 +31,10 @@ Server: Werkzeug/0.16.0 Python/3.7.4
 
 ```
 http GET :8000/generate
-
-
-HTTP/1.0 200 OK
-Content-Length: 1266
-Content-Type: application/json
-Date: Sat, 21 Sep 2019 03:28:14 GMT
-Server: Werkzeug/0.16.0 Python/3.7.4
-
+```
+```
 {
-    "count": 50,
+    "count": 5,
     "values": [
         {
             "name": "915",
@@ -82,14 +65,8 @@ Server: Werkzeug/0.16.0 Python/3.7.4
 
 ```
 cat sort.json | http POST :5000/sort
-
-
-HTTP/1.0 200 OK
-Content-Length: 93
-Content-Type: application/json
-Date: Sat, 21 Sep 2019 03:51:00 GMT
-Server: Werkzeug/0.16.0 Python/3.7.4
-
+```
+```
 {
     "count": 5,
     "values": [
@@ -134,14 +111,8 @@ sort.json
 
 ```
 http GET :5000/compare val1==1 val2==10 cs==1
-
-
-HTTP/1.0 200 OK
-Content-Length: 21
-Content-Type: application/json
-Date: Sat, 21 Sep 2019 03:56:41 GMT
-Server: Werkzeug/0.16.0 Python/3.7.4
-
+```
+```
 {
     "result": true
 }
