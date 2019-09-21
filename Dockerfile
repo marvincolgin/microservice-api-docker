@@ -1,16 +1,19 @@
-FROM alpine:3.1
+# Pull base image
+FROM python:3.7-slim
 
-# Update
-RUN apk add --update python py-pip
+# Set environment varibles
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-COPY ./ ./src/
+# Set work directory
+WORKDIR /code
 
-WORKDIR ./src
+# Install dependencies
+RUN pip install pipenv
+COPY Pipfile Pipfile.lock /code/
+RUN pipenv install --system
 
-# Install app dependencies
-RUN ls -l .
-RUN ls -l ./src/
-RUN pip install -r requirements.txt
+# Copy project
+COPY ./src/index.py /code/__init__.py
 
-EXPOSE  8000
-CMD ["python", "./src/index.py", "-p 8000"]
+RUN ls -l
