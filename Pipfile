@@ -7,6 +7,14 @@ verify_ssl = true
 
 [packages]
 flask = "*"
+QuinnStruct = "*"
+flake8 = "*"
+requests = "*"
+flask-cors = "*"
+pytest = "*"
+mypy = "*"
+pep8 = "*"
+httpie = "*"
 
 [requires]
 python_version = "3.7"
