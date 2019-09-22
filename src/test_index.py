@@ -65,7 +65,6 @@ class FlaskAPITests(unittest.TestCase):
         self.assertIsNotNone(err, json.dumps(data))
 
         # Make sure it has a count field
-        print(data)
         c = data.get('count', -1)
         self.assertEqual(c, 10)
 
@@ -129,3 +128,18 @@ class FlaskAPITests(unittest.TestCase):
         r = data.get('result', -1)
         self.assertIsInstance(r, bool)
         self.assertEqual(r, True)
+
+    def test_sort(self):
+        data = {'count':5,'values':[{'name':'915','value':1},{'name':'283','value':1},{'name':'350','value':1},{'name':'69','value':1},{'name':'78','value':1}]}  # noqa E231
+        print(type(data))
+
+        result = self.app.post('/sort', data=json.dumps(data), content_type='application/json')
+
+        # Make sure it's a json byte stream
+        self.assertIsInstance(result.data, bytes)
+        buf = result.data.decode('utf8').replace("'", '"')
+        data = json.loads(buf)
+        self.assertIsInstance(data, dict)
+
+        expected = {'count':5,'values':['69','78','283','350','915']}  # noqa E231
+        self.assertDictEqual(data, expected)

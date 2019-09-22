@@ -222,7 +222,6 @@ def do_PUBLIC():
         # Validate Response
         valid = False
         count = data.get('count', None)
-        print("count:", count)
         if count and count > 0:
             arr = data.get('values', None)
             if arr and isinstance(arr, list):
@@ -231,7 +230,6 @@ def do_PUBLIC():
         if valid:
             # Pass Data to Sort
             url = f'{API_URL_SORT}'
-            print("data:", data)
             r = requests.post(url, data=json.dumps(data))
 
             if is_json(r.text):
