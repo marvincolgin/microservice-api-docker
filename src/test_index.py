@@ -60,7 +60,12 @@ class FlaskAPITests(unittest.TestCase):
         data = json.loads(buf)
         self.assertIsInstance(data, dict)
 
+        # Make sure it's not an ERROR
+        err = data.get('error', False)
+        self.assertIsNone(err, json.dumps(data))
+
         # Make sure it has a count field
+        print(data)
         c = data.get('count', -1)
         self.assertEqual(c, 10)
 

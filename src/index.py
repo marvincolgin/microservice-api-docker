@@ -34,6 +34,8 @@ def is_json(json_str) -> bool:
 
 @app.route('/sort', methods=['POST'])
 def do_SORT():
+    method_name = 'do_SORT'
+
     # NO ROUTE, this will take a list of values and sort them, returning the sort via JSON
 
     arrSortedVals = []
@@ -120,8 +122,8 @@ def do_SORT():
         else:
             # ERROR
             data = {
-                'func': 'do_POST',
                 'error': f'Invalid Input',
+                'method_name': method_name,
                 'body': body
             }
             return data
@@ -129,8 +131,8 @@ def do_SORT():
     else:
         # ERROR
         data = {
-            'func': 'do_POST',
             'sub': '!is_json()',
+            'method_name': method_name,
             'error': 'Invalid JSON',
             'payload': f'{body}'
         }
@@ -139,6 +141,7 @@ def do_SORT():
 
 @app.route('/generate', methods=['GET'])
 def do_GENERATE():
+    # method_name = 'do_GENERATE'
 
     # Generate a Random list of *Unique* Values
     ht = HashTable()
@@ -162,6 +165,8 @@ def do_GENERATE():
 
 @app.route('/compare', methods=['GET'])
 def do_COMPARE():
+    method_name = 'do_COMPARE'
+
     # Comparison function for BinarySearchTree
 
     # Validate Input
@@ -171,10 +176,10 @@ def do_COMPARE():
     if val1 is None or val2 is None or cs is None:
         # ERROR
         data = {
-            'func': 'do_GET',
             'val1': val1,
             'val2': val2,
             'cs': cs,
+            'method_name': method_name,
             'error': f'Invalid GET params'
         }
         return data
@@ -234,7 +239,7 @@ def do_PUBLIC():
             else:
                 # ERROR
                 data = {
-                    'func': method_name,
+                    'method_name': method_name,
                     'url': url,
                     'error': f'Invalid JSON',
                     'payload': r.text
@@ -243,7 +248,7 @@ def do_PUBLIC():
         else:
             # ERROR
             data = {
-                'func': method_name,
+                'method_name': method_name,
                 'note': 'count from json didn''t match values[]',
                 'error': f'Invalid Response',
                 'payload': str(data)  # this is a dict
@@ -253,7 +258,7 @@ def do_PUBLIC():
     else:
         # ERROR
         data = {
-            'func': method_name,
+            'method_name': method_name,
             'url': url,
             'error': 'Invalid JSON',
             'payload': r.text
@@ -262,7 +267,7 @@ def do_PUBLIC():
 
     # Send back to Client
     return {
-        'func': method_name,
+        'method_name': method_name,
         'error': f'ASSERT! This should never get here'
     }
 
