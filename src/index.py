@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 from factory import create_app
 import sys
 import optparse
@@ -86,7 +86,9 @@ def do_SORT():
                 return False
 
     # Read in the POST
+    print("request.data:", request.data)
     body = request.json
+    print("body:", body)
     if body is not None:
 
         # Convert Body to JSON
@@ -118,7 +120,7 @@ def do_SORT():
                 'count': len(arrSortedVals),
                 'values': arrSortedVals
             }
-            return data
+            return jsonify(data)
         else:
             # ERROR
             data = {
@@ -126,7 +128,7 @@ def do_SORT():
                 'method_name': method_name,
                 'body': body
             }
-            return data
+            return jsonify(data)
 
     else:
         # ERROR
@@ -136,7 +138,7 @@ def do_SORT():
             'error': 'Invalid JSON',
             'payload': f'{body}'
         }
-        return data
+        return jsonify(data)
 
 
 @app.route('/generate', methods=['GET'])
@@ -160,7 +162,7 @@ def do_GENERATE():
         'count': len(values),
         'values': values,
     }
-    return data
+    return jsonify(data)
 
 
 @app.route('/compare', methods=['GET'])
@@ -182,7 +184,7 @@ def do_COMPARE():
             'method_name': method_name,
             'error': f'Invalid GET params'
         }
-        return data
+        return jsonify(data)
 
     # Process
     retVal = False
@@ -200,7 +202,7 @@ def do_COMPARE():
     }
 
     # Send Return
-    return data
+    return jsonify(data)
 
 
 @app.route('/', methods=['GET'])
@@ -227,6 +229,7 @@ def do_PUBLIC():
         if valid:
             # Pass Data to Sort
             url = f'{API_URL_SORT}'
+            print("data:", data)
             r = requests.post(url, data=json.dumps(data))
 
             if is_json(r.text):
@@ -235,7 +238,7 @@ def do_PUBLIC():
                 # Validate Response
 
                 # Return Result
-                return(data)
+                return jsonify(data)
             else:
                 # ERROR
                 data = {
@@ -244,7 +247,7 @@ def do_PUBLIC():
                     'error': f'Invalid JSON',
                     'payload': r.text
                 }
-                return(data)
+                return jsonify(data)
         else:
             # ERROR
             data = {
@@ -253,7 +256,7 @@ def do_PUBLIC():
                 'error': f'Invalid Response',
                 'payload': str(data)  # this is a dict
             }
-            return(data)
+            return jsonify(data)
 
     else:
         # ERROR
@@ -263,13 +266,13 @@ def do_PUBLIC():
             'error': 'Invalid JSON',
             'payload': r.text
         }
-        return(data)
+        return jsonify(data)
 
     # Send back to Client
-    return {
+    return jsonify({
         'method_name': method_name,
         'error': f'ASSERT! This should never get here'
-    }
+    })
 
 
 if __name__ == "__main__":
