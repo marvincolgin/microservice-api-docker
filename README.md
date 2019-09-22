@@ -2,11 +2,16 @@
 
 ## Source Files
 
+```
+./api/__init__.py
+./tests/test_index.py
+```
+
 ## Testing
 
-```cd src ; python -m pytest test_index.py```
-
-```cat sort.json | http POST :5000/sort```
+```
+python -m pytest .\tests\test_index.py
+```
 
 ## Building
 
@@ -40,6 +45,8 @@ python ./src/index.py --port 5000
 ### Docker
 
 ```
+docker build --no-cache .
+
 docker-compose up --build
 ```
 

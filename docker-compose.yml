@@ -1,13 +1,10 @@
 version: '3.7'
 
 services:
-  web:
+  api:
     build: .
-    command: >
-      sh -c "ls -l &&
-             python /code/__init__.py --port 8000"
+    ports:
+      - "5000:5000"
     volumes:
       - .:/code
-    ports:
-      - 8000:8000
 
