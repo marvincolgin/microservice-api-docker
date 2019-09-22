@@ -131,8 +131,6 @@ class FlaskAPITests(unittest.TestCase):
 
     def test_sort(self):
         data = {'count':5,'values':[{'name':'915','value':1},{'name':'283','value':1},{'name':'350','value':1},{'name':'69','value':1},{'name':'78','value':1}]}  # noqa E231
-        print(type(data))
-
         result = self.app.post('/sort', data=json.dumps(data), content_type='application/json')
 
         # Make sure it's a json byte stream
