@@ -110,7 +110,7 @@ def do_SORT():
         if valid:
 
             # Sort using BinarySearchTree
-            use_web = False
+            use_web = True
             f = comparison_api if use_web else comparison_func
             bt = BinarySearchTree(f)
             for value in arr:
@@ -174,9 +174,9 @@ def do_COMPARE():
     # Comparison function for BinarySearchTree
 
     # Validate Input
-    val1 = request.args.get('val1')
-    val2 = request.args.get('val2')
-    cs = request.args.get('cs')
+    val1 = int(request.args.get('val1'))
+    val2 = int(request.args.get('val2'))
+    cs = int(request.args.get('cs'))
     if val1 is None or val2 is None or cs is None:
         # ERROR
         data = {
