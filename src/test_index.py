@@ -22,7 +22,7 @@ class FlaskAPITests(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_generate_data(self):
+    def test_generate(self):
         # sends HTTP GET request to the application
         # on the specified path
         result = self.app.get('/generate')
@@ -50,7 +50,7 @@ class FlaskAPITests(unittest.TestCase):
         # Make sure count(values) == data.count
         self.assertEqual(c, len(arr))
 
-    def test_public_data(self):
+    def test_public(self):
         result = self.app.get('/')
         self.assertEqual(result.status_code, 200)
 
@@ -62,7 +62,7 @@ class FlaskAPITests(unittest.TestCase):
 
         # Make sure it's not an ERROR
         err = data.get('error', False)
-        self.assertIsNone(err, json.dumps(data))
+        self.assertIsNotNone(err, json.dumps(data))
 
         # Make sure it has a count field
         print(data)

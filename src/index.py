@@ -86,9 +86,9 @@ def do_SORT():
                 return False
 
     # Read in the POST
-    print("request.data:", request.data)
-    body = request.json
-    print("body:", body)
+    # @TODO: Why do I need to do this? request.json==None when I tried it (content-type from sub req)
+    buf = request.data.decode('utf8').replace("'", '"')
+    body = json.loads(buf)
     if body is not None:
 
         # Convert Body to JSON
@@ -110,7 +110,9 @@ def do_SORT():
         if valid:
 
             # Sort using BinarySearchTree
-            bt = BinarySearchTree(comparison_api)
+            use_web = False
+            f = comparison_api if use_web else comparison_func
+            bt = BinarySearchTree(f)
             for value in arr:
                 bt.add(value.get('name', 'ERROR'))
             bt.traverse(TraverseMethod.IN_ORDER, touch_node)
