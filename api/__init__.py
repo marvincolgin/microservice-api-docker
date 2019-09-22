@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from factory import create_app
+from api.factory import create_app
 import sys
 import optparse
 import time
@@ -9,7 +9,7 @@ import json
 import random
 
 
-API_URL_BASE = 'http://127.0.0.1:8000'
+API_URL_BASE = 'http://127.0.0.1:5000'
 API_URL_GENERATE = API_URL_BASE + '/generate'
 API_URL_SORT = API_URL_BASE + '/sort'
 API_URL_COMPARE = API_URL_BASE + '/compare'

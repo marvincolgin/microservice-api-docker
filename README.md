@@ -1,5 +1,47 @@
 # Layered Microservice APIs, written in Python and deployed in Docker
 
+## Source Files
+
+## Testing
+
+```cd src ; python -m pytest test_index.py```
+
+```cat sort.json | http POST :5000/sort```
+
+## Building
+
+
+## Running
+
+### Flask
+
+Windows
+```
+cd $REPO_DIR
+
+set FLASK_APP=api
+set FLASK_ENV=development
+
+flask run
+```
+
+Linux
+```
+cd $REPO_DIR
+export FLASK_APP=api; flask run
+```
+
+### Python Direct
+```
+cd $REPO_DIR
+python ./src/index.py --port 5000
+```
+
+### Docker
+
+```
+docker-compose up --build
+```
 
 
 ## API
@@ -12,7 +54,7 @@ Performs ```GET /generate``` to obtain a random list of integers, validates the 
 
 
 ```
-http GET :8000/
+http GET :5000/
 ```
 ```
 {
@@ -30,7 +72,7 @@ http GET :8000/
 ### GET /generate
 
 ```
-http GET :8000/generate
+http GET :5000/generate
 ```
 ```
 {
