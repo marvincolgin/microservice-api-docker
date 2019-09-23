@@ -1,5 +1,12 @@
 # Layered Microservice APIs, written in Python and deployed in Docker
 
+This project is an example of a layered set of APIs, which expose a single public API and subsequently make many calls to sub-apis to accomplish a goal. This API is then packaged up as a Docker container, which can be spooled up for handling requests.
+
+This example is written in Python and uses Flask for HTTP operations. The underlying data-structures utilize my library QuinnStruct, to provide BinarySearchTree, HashTable and Link List (hashtable collisions). 
+
+On ```GET /```, the API will request X random integer values via ```GET /generate```, it will then ```POST /sort``` the list of integers to be inserted into a binary-search-tree and then perform a ```IN_ORDER``` traversal of the tree to return the sorted results. In order for the binary-search-tree to compare each nearly inserted value, it will make a ```GET /comparison``` to compare the two values.
+
+
 ## Source Files
 
 ```
