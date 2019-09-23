@@ -2,9 +2,11 @@ version: '3.7'
 
 services:
   api:
-    build: .
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     ports:
       - "5000:5000"
     volumes:
-      - .:/code
-
+      - ./api/__init__.py:/code/api/__init__.py
+      - ./api/factory.py:/code/api/factory.py
