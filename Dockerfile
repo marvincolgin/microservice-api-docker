@@ -11,7 +11,7 @@ WORKDIR /code
 # Install code
 COPY Pipfile Pipfile.lock /code/
 COPY ./api/__init__.py /code/api/
-copy ./api/factory.py /code/api/
+COPY ./api/factory.py /code/api/
 RUN ls -lR /code
 
 # Install dependencies
@@ -19,4 +19,4 @@ RUN pip install pipenv
 RUN pipenv install --system
 
 # Run It
-CMD export FLASK_APP=api ; flask run
+CMD export FLASK_APP=api ; flask run --host 0.0.0.0 --port 5000
