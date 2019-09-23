@@ -22,6 +22,13 @@ python -m pytest .\tests\test_index.py
 
 ## Building
 
+### Docker
+
+```
+docker-compose build
+
+docker-compose up
+```
 
 ## Running
 
@@ -48,15 +55,6 @@ export FLASK_APP=api; flask run
 cd $REPO_DIR
 python ./src/index.py --port 5000
 ```
-
-### Docker
-
-```
-docker build --no-cache .
-
-docker-compose up --build
-```
-
 
 ## API
 
