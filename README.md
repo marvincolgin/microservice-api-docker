@@ -19,6 +19,8 @@ On ```GET /```, the API will request X random integer values via ```GET /generat
 ```
 python -m pytest .\tests\test_index.py
 ```
+NOTE: Requires a copy of the API running on http://127.0.0.1:5000
+@TODO: Use fixture to remove this dependancy
 
 ## Building
 
